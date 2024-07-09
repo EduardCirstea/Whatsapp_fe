@@ -1,7 +1,5 @@
-import "./App.css";
-
 function App() {
-  return <div></div>;
+  return <div className="dark"></div>;
 }
 
 export default App;
