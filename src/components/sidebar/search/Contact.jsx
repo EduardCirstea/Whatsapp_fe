@@ -1,8 +1,23 @@
 import React from "react";
-
-export default function Contact({ contact }) {
+import { open_create_conversation } from "../../../features/chatSlice";
+import { useDispatch, useSelector } from "react-redux";
+export default function Contact({ contact, setSearchResults }) {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const { token } = user;
+  const values = {
+    receiver_id: contact._id,
+    token,
+  };
+  const openConversation = async () => {
+    await dispatch(open_create_conversation(values));
+    setSearchResults([]);
+  };
   return (
-    <li className="list-none h-[72px] hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]">
+    <li
+      onClick={() => openConversation()}
+      className="list-none h-[72px] hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]"
+    >
       <div className="flex items-center gap-x-3 py-[10px]">
         <div className="flex items-center gap-x-3">
           <div className="relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden">
