@@ -7,11 +7,13 @@ import {
   getConversationPicture,
 } from "../../../utils/chat.js";
 import SocketContext from "../../../context/SocketContext.js";
+import { capitalize } from "../../../utils/string.js";
 function Conversation({ conv, socket }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
   const { token } = user;
+
   const values = {
     receiver_id: getConversationId(user, conv.users),
     token,
@@ -33,14 +35,14 @@ function Conversation({ conv, socket }) {
         <div className="flex items-center gap-x-3">
           <div className="relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden">
             <img
-              src={capitalize(getConversationPicture(user, conv.user))}
+              src={capitalize(getConversationPicture(user, conv.users))}
               alt="picture"
               className="w-full h-full object-cover"
             />
           </div>
           <div className="w-full flex flex-col">
             <h1 className="font-bold flex items-center gap-x-2">
-              {capitalize(getConversationName(user, conv.user))}
+              {capitalize(getConversationName(user, conv.users))}
             </h1>
             <div>
               <div className="flex items-center gap-x-1 dark:text-dark_text_2">

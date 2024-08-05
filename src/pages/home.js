@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { Sidebar } from "../components/sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { getConversations } from "../features/chatSlice";
+import {
+  getConversations,
+  updateMessagesAndConversations,
+} from "../features/chatSlice";
 import { ChatContainer, WhatsappHome } from "../components/chat";
 import SocketContext from "../context/SocketContext";
 // import { logout } from "../features/userSlice";
@@ -14,6 +17,13 @@ function Home({ socket }) {
   useEffect(() => {
     socket.emit("join", user._id);
   }, [user]);
+
+  //listening to received messages
+  useEffect(() => {
+    socket.on("receive message", (message) => {
+      dispatch(updateMessagesAndConversations(message));
+    });
+  }, []);
 
   useEffect(() => {
     if (user?.token) {
