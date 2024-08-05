@@ -5,9 +5,10 @@ import Input from "./Input";
 import { SendIcon } from "../../../svg";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage } from "../../../features/chatSlice";
+import SocketContext from "../../../context/SocketContext.js";
 import { ClipLoader } from "react-spinners";
 
-export default function ChatActions() {
+function ChatActions({ socket }) {
   const dispatch = useDispatch();
   const [showPicker, setShowPicker] = useState(false);
   const [showAttachments, setShowAttachments] = useState(false);
@@ -27,7 +28,8 @@ export default function ChatActions() {
     e.preventDefault();
     if (message.trim() === "") return;
     setLoading(true);
-    await dispatch(sendMessage(values));
+    let newMessage = await dispatch(sendMessage(values));
+    socket.emit("send message", newMessage.payload);
     setMessage("");
     setLoading(false);
   };
@@ -64,3 +66,11 @@ export default function ChatActions() {
     </form>
   );
 }
+
+const ChatActionsWithSocket = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <ChatActions {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default ChatActionsWithSocket;

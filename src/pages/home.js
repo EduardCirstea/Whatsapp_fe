@@ -7,10 +7,13 @@ import SocketContext from "../context/SocketContext";
 // import { logout } from "../features/userSlice";
 
 function Home({ socket }) {
-  console.log(socket);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
+  //join user into the socket io
+  useEffect(() => {
+    socket.emit("join", user._id);
+  }, [user]);
 
   useEffect(() => {
     if (user?.token) {
