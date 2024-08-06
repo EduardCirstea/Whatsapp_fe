@@ -8,7 +8,7 @@ import {
 } from "../../../utils/chat.js";
 import SocketContext from "../../../context/SocketContext.js";
 import { capitalize } from "../../../utils/string.js";
-function Conversation({ conv, socket }) {
+function Conversation({ conv, socket, online }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
@@ -33,15 +33,19 @@ function Conversation({ conv, socket }) {
     >
       <div className="relative w-full flex items-center justify-between py-[10px]">
         <div className="flex items-center gap-x-3">
-          <div className="relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden">
+          <div
+            className={`relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden ${
+              online ? "online" : ""
+            }`}
+          >
             <img
-              src={capitalize(getConversationPicture(user, conv.users))}
+              src={getConversationPicture(user, conv.users)}
               alt="picture"
               className="w-full h-full object-cover"
             />
           </div>
           <div className="w-full flex flex-col">
-            <h1 className="font-bold flex items-center gap-x-2">
+            <h1 className="font-bold flex items-center gap-x-2 ">
               {capitalize(getConversationName(user, conv.users))}
             </h1>
             <div>

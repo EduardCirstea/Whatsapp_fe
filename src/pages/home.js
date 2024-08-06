@@ -7,15 +7,20 @@ import {
 } from "../features/chatSlice";
 import { ChatContainer, WhatsappHome } from "../components/chat";
 import SocketContext from "../context/SocketContext";
+import { useState } from "react";
 // import { logout } from "../features/userSlice";
 
 function Home({ socket }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
-  //join user into the socket io
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  // join user into the socket io
   useEffect(() => {
     socket.emit("join", user._id);
+    socket.on("get-online-users", (users) => {
+      setOnlineUsers(users);
+    });
   }, [user]);
 
   //listening to received messages
@@ -34,8 +39,12 @@ function Home({ socket }) {
   return (
     <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center overflow-hidden">
       <div className="container h-screen flex py-[19px]">
-        <Sidebar />
-        {activeConversation._id ? <ChatContainer /> : <WhatsappHome />}
+        <Sidebar onlineUsers={onlineUsers} />
+        {activeConversation._id ? (
+          <ChatContainer onlineUsers={onlineUsers} />
+        ) : (
+          <WhatsappHome />
+        )}
       </div>
     </div>
   );
