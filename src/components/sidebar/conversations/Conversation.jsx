@@ -8,7 +8,7 @@ import {
 } from "../../../utils/chat.js";
 import SocketContext from "../../../context/SocketContext.js";
 import { capitalize } from "../../../utils/string.js";
-function Conversation({ conv, socket, online }) {
+function Conversation({ conv, socket, online, typing }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
@@ -51,11 +51,15 @@ function Conversation({ conv, socket, online }) {
             <div>
               <div className="flex items-center gap-x-1 dark:text-dark_text_2">
                 <div className="flex-1 items-center gap-x-1 dark:text-dark_text_2">
-                  <p>
-                    {conv.latestMessage?.message.length > 25
-                      ? `${conv.latestMessage?.message.substring(0, 25)} ...`
-                      : conv.latestMessage?.message}
-                  </p>
+                  {typing === conv._id ? (
+                    <p className="text-green_1">Typing...</p>
+                  ) : (
+                    <p>
+                      {conv.latestMessage?.message.length > 25
+                        ? `${conv.latestMessage?.message.substring(0, 25)} ...`
+                        : conv.latestMessage?.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

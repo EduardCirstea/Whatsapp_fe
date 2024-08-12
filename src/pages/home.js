@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar } from "../components/sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,7 +7,7 @@ import {
 } from "../features/chatSlice";
 import { ChatContainer, WhatsappHome } from "../components/chat";
 import SocketContext from "../context/SocketContext";
-import { useState } from "react";
+
 // import { logout } from "../features/userSlice";
 
 function Home({ socket }) {
@@ -15,6 +15,7 @@ function Home({ socket }) {
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [typing, setTyping] = useState("false");
   // join user into the socket io
   useEffect(() => {
     socket.emit("join", user._id);
@@ -23,11 +24,14 @@ function Home({ socket }) {
     });
   }, [user]);
 
-  //listening to received messages
   useEffect(() => {
+    //lsitening to receiving a message
     socket.on("receive message", (message) => {
       dispatch(updateMessagesAndConversations(message));
     });
+    //listening when a user is typing
+    socket.on("typing", (conversation) => setTyping(conversation));
+    socket.on("stop typing", () => setTyping(false));
   }, []);
 
   useEffect(() => {
@@ -39,9 +43,9 @@ function Home({ socket }) {
   return (
     <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center overflow-hidden">
       <div className="container h-screen flex py-[19px]">
-        <Sidebar onlineUsers={onlineUsers} />
+        <Sidebar onlineUsers={onlineUsers} typing={typing} />
         {activeConversation._id ? (
-          <ChatContainer onlineUsers={onlineUsers} />
+          <ChatContainer onlineUsers={onlineUsers} typing={typing} />
         ) : (
           <WhatsappHome />
         )}
