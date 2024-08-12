@@ -28,7 +28,7 @@ export default function DocumentAttachment() {
         file.type !== "audio/wav"
       ) {
         files = files.filter((item) => item.name !== file.name);
-        console.log(file.type);
+
         return;
       } else if (file.size > 1024 * 1024 * 10) {
         files = files.filter((item) => item.name !== file.name);

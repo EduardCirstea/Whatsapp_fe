@@ -12,7 +12,7 @@ export default function FileViewer({ activeIndex }) {
             className="max-w-[80%] object-contain hview"
           />
         ) : (
-          <div className="min-w-full hview flex flex-col items-center justify-center">
+          <div className="min-w-full hview flex flex-col items-center justify-center ">
             <img
               src={`../../../../images/file/${files[activeIndex].type}.PNG`}
               alt={files[activeIndex].type}
