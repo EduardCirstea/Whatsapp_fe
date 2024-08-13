@@ -7,6 +7,7 @@ import {
 } from "../features/chatSlice";
 import { ChatContainer, WhatsappHome } from "../components/chat";
 import SocketContext from "../context/SocketContext";
+import Call from "../components/chat/call/Call";
 
 // import { logout } from "../features/userSlice";
 
@@ -41,16 +42,19 @@ function Home({ socket }) {
   }, [user]);
 
   return (
-    <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center overflow-hidden">
-      <div className="container h-screen flex py-[19px]">
-        <Sidebar onlineUsers={onlineUsers} typing={typing} />
-        {activeConversation._id ? (
-          <ChatContainer onlineUsers={onlineUsers} typing={typing} />
-        ) : (
-          <WhatsappHome />
-        )}
+    <>
+      <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center overflow-hidden">
+        <div className="container h-screen flex py-[19px]">
+          <Sidebar onlineUsers={onlineUsers} typing={typing} />
+          {activeConversation._id ? (
+            <ChatContainer onlineUsers={onlineUsers} typing={typing} />
+          ) : (
+            <WhatsappHome />
+          )}
+        </div>
       </div>
-    </div>
+      <Call />
+    </>
   );
 }
 

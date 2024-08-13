@@ -24,6 +24,7 @@ export default function Add({ setActiveIndex }) {
         file.type !== "application/vnd.rar" &&
         file.type !== "application/zip" &&
         file.type !== "audio/mpeg" &&
+        file.type !== "audio/wav" &&
         file.type !== "image/png" &&
         file.type !== "image/jpeg" &&
         file.type !== "image/gif" &&
@@ -31,8 +32,7 @@ export default function Add({ setActiveIndex }) {
         file.type !== "video/mp4" &&
         file.type !== "video/mpeg" &&
         file.type !== "image/webm" &&
-        file.type !== "image/webp" &&
-        file.type !== "audio/wav"
+        file.type !== "image/webp"
       ) {
         files = files.filter((item) => item.name !== file.name);
 

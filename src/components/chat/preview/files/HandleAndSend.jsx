@@ -10,6 +10,7 @@ import {
 import SocketContext from "../../../../context/SocketContext.js";
 import { ClipLoader } from "react-spinners";
 import CloseIcon from "../../../../svg/Close.js";
+import VideoThumbnail from "react-video-thumbnail";
 
 function HandleAndSend({ activeIndex, setActiveIndex, message, socket }) {
   const [loading, setLoading] = useState(false);
@@ -52,6 +53,8 @@ function HandleAndSend({ activeIndex, setActiveIndex, message, socket }) {
                 src={file.fileData}
                 alt="file"
               />
+            ) : file.type === "VIDEO" ? (
+              <VideoThumbnail videoUrl={file.fileData} />
             ) : (
               <img
                 src={`../../../../images/file/${file.type}.png`}

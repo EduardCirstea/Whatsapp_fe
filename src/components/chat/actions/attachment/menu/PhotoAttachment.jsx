@@ -17,6 +17,7 @@ export default function PhotoAttachment() {
         file.type !== "image/webp" &&
         file.type !== "video/mp4" &&
         file.type !== "video/mpeg" &&
+        file.type !== "video/webm" &&
         file.type !== "image/webm" &&
         file.type !== "image/webp"
       ) {
@@ -54,7 +55,7 @@ export default function PhotoAttachment() {
         hidden
         multiple
         ref={inputRef}
-        accept="image/png,image/jpeg,image/gif,image/webp,video/mp4,video/mpeg"
+        accept="image/png,image/jpeg,image/gif,image/webp,video/mp4,video/mpeg,video/webm"
         onChange={imageHandler}
       />
     </li>
